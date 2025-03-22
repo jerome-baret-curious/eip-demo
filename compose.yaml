@@ -1,0 +1,72 @@
+services:
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: fgdfgdf
+      POSTGRES_USER: app_owner
+      POSTGRES_DB: -eip
+    ports:
+      - "5432:5432"
+    command: -c config_file=/etc/postgresql.conf
+    volumes:
+      - ./container-conf/postgresql.conf:/etc/postgresql.conf
+      - database_data:/var/lib/postgresql/data:rw
+    networks:
+      - app
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command:
+      - start-dev
+      - "--features=token-exchange"
+      - "--db=postgres"
+      - "--db-url=jdbc:postgresql://keycloak-db:5432/sso"
+      - "--db-username=kc_sso"
+      - "--db-password=thepass"
+      - "--import-realm"
+    ports:
+      - "18080:8080"
+    volumes:
+      - ./container-conf/keycloak:/opt/keycloak/data/import
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+    networks:
+      - keycloak
+    container_name: keycloak
+  keycloak-db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=thepass
+      - POSTGRES_USER=kc_sso
+      - POSTGRES_DB=sso
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - keycloak
+    container_name: keycloak-db
+  keycloak-mailcatcher:
+    image: sj26/mailcatcher:latest
+    ports:
+      - "1081:1080"
+    expose:
+      - "1025"
+    networks:
+      - keycloak
+
+volumes:
+  database_data:
+
+networks:
+  keycloak:
+    driver: bridge
+  app:
+    driver: bridge

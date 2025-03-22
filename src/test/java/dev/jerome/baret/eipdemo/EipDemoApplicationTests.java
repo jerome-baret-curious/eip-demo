@@ -1,0 +1,13 @@
+package dev.jerome.baret.eipdemo;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class EipDemoApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}

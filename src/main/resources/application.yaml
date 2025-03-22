@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: eip-demo
+  datasource:
+    url: jdbc:postgresql://localhost:5432/eip
+    username: app_owner
+    password: fgdfgdf
+  jackson:
+    default-property-inclusion: non_null
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jws-algorithms: RS512
+          issuer-uri: http://localhost:18080/realms/eip
+          jwk-set-uri: http://localhost:18080/realms/eip/protocol/openid-connect/certs

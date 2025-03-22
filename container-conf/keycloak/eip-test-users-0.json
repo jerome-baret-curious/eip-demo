@@ -1,0 +1,17 @@
+{
+  "realm" : "eip-test",
+  "users" : [ {
+    "id" : "76b48af6-77d8-4beb-bbaf-48a11928ee1d",
+    "username" : "jerome",
+    "emailVerified" : false,
+    "createdTimestamp" : 1742651108013,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-eip-test" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
