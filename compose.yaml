@@ -2,14 +2,15 @@ services:
   database:
     image: postgres:latest
     environment:
-      POSTGRES_PASSWORD: fgdfgdf
+      POSTGRES_PASSWORD: passmain
       POSTGRES_USER: app_owner
-      POSTGRES_DB: -eip
+      POSTGRES_DB: eip
     ports:
       - "5432:5432"
     command: -c config_file=/etc/postgresql.conf
     volumes:
-      - ./container-conf/postgresql.conf:/etc/postgresql.conf
+      - ./container-conf/pgsql/postgresql.conf:/etc/postgresql.conf
+      - ./container-conf/pgsql/init:/docker-entrypoint-initdb.d
       - database_data:/var/lib/postgresql/data:rw
     networks:
       - app
@@ -25,7 +26,7 @@ services:
       - "--db=postgres"
       - "--db-url=jdbc:postgresql://keycloak-db:5432/sso"
       - "--db-username=kc_sso"
-      - "--db-password=thepass"
+      - "--db-password=thekcpass"
       - "--import-realm"
     ports:
       - "18080:8080"
@@ -40,7 +41,7 @@ services:
   keycloak-db:
     image: postgres:latest
     environment:
-      - POSTGRES_PASSWORD=thepass
+      - POSTGRES_PASSWORD=thekcpass
       - POSTGRES_USER=kc_sso
       - POSTGRES_DB=sso
     expose:

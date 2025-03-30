@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/eip
     username: app_owner
-    password: fgdfgdf
+    password: passmain
   jackson:
     default-property-inclusion: non_null
   security:
@@ -12,5 +12,5 @@ spring:
       resourceserver:
         jwt:
           jws-algorithms: RS512
-          issuer-uri: http://localhost:18080/realms/eip
-          jwk-set-uri: http://localhost:18080/realms/eip/protocol/openid-connect/certs
+          issuer-uri: http://localhost:18080/realms/eip-test/
+          jwk-set-uri: http://localhost:18080/realms/eip-test/protocol/openid-connect/certs
